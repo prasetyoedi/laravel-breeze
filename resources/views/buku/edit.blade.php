@@ -35,7 +35,7 @@
                 </div>
                 <div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
-                    <a href="/buku" class="btn btn-outline-danger">Batal</a>
+                    <a href="/dashboard" class="btn btn-outline-danger">Batal</a>
                 </div>
             </div>
         </div>

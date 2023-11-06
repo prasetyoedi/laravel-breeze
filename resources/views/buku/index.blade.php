@@ -13,8 +13,9 @@
             style="width: 30%;
         display: inline; margin-top: 10px; margin-bottom: 10px; float: right;">
     </form>
-    <a href="{{ route('buku.create') }}"> <button type="button" class="btn btn-primary mb-5"> Tambah
-            Buku Baru </button>
+    <a href="{{ route('buku.create') }}"> 
+        <button type="button" class="btn btn-primary mb-5"> Tambah Buku Baru
+        </button>
     </a>
 
     <table class="table table-striped">
@@ -25,8 +26,10 @@
                 <th>Penulis</th>
                 <th>Harga</th>
                 <th>Tanggal Terbit</th>
-                <th>Aksi</th>
-                <th></th>
+                @if (Auth::user()->role == 'admin')
+                    <th>Aksi</th>
+                    <th></th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -37,26 +40,21 @@
                     <td>{{ $buku->penulis }}</td>
                     <td>{{ 'Rp ' . number_format($buku->harga, 2, ',', '.') }}</td>
                     <td>{{ \Carbon\Carbon::parse($buku->tgl_terbit)->format('d-m-Y') }}</td>
-                    <td>
-                        <a href="{{ route('buku.edit', ['id' => $buku->id]) }}">
-                            <button type="button" class="btn btn-primary">
-                                Edit
-                            </button>
-                        </a>
-                    </td>
-                    <td>
-                        <form action="{{ route('buku.destroy', $buku->id) }}" method="post">
-                            @csrf
-                            <button type="submit" class="btn btn-danger"
-                                onclick="return confirm('Yakin mau dihapus?');">Hapus</button>
-                        </form>
-                    </td>
+                    @if (Auth::user()->role == 'admin')
+                        <td>
+                            <form action="{{ route('buku.destroy', $buku->id) }}" method="post">
+                                @csrf
+                                <button class="btn btn-danger"
+                                    onclick="return confirm('Apakah Yakin Dihapus?')">Hapus</button>
+                            </form>
+                        </td>
+                        <td>
+                            <a class="btn btn-warning" href="{{ route('buku.edit', $buku->id) }}">Update</a>
+                        </td>
+                    @endif
                 </tr>
             @endforeach
         </tbody>
     </table>
-
-
-    <div class="d-flex justify-content-center">{{ $data_buku->links() }}</div>
-    <div>Jumlah Buku : {{ $jumlah_buku }}</div>
+    <div class="mt-5 d-flex justify-content-center">{{ $data_buku->links() }}</div>
 </div>
