@@ -40,14 +40,15 @@
                     <td>@if ( $buku->filepath )
                         <div class="">
                             <img
-                            class="h-full w-full"
+                            class="h-24 w-24"
                             src="{{ asset($buku->filepath) }}"
                             alt=""
                             style="padding-right: 20px;"
                             />
                         </div>
+                        @endif
 
-                        <!-- <div class="relative h-10 w-10">
+                                                <!-- <div class="relative h-10 w-10">
                             <img
                             class="h-full w-full rounded-full object-cover object-center"
                             src="{{ asset($buku->filepath) }}"
@@ -55,7 +56,6 @@
                             style="padding-right: 20px;"
                             />
                         </div> -->
-                        @endif
                     </td>
                     <td>{{ $buku->judul }}</td>
                     <td>{{ $buku->penulis }}</td>

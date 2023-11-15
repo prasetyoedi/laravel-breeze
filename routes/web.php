@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/dashboard/update/{id}', [BukuController::class, 'update'])->name('buku.update');
     });
     Route::get('/dashboard/search', [BukuController::class, 'search'])->name('buku.search');
+    Route::delete('/buku/{buku}/gallery/{gallery}', [BukuController::class, 'deleteGallery'])->name('buku.deleteGallery');
 });
 
 require __DIR__ . '/auth.php';

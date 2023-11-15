@@ -93,14 +93,11 @@ class BukuController extends Controller
     public function update(Request $request, string $id)
     {
         $buku = Buku::find($id);
-
         $request->validate([
             'thumbnail' => 'image|mimes:jpeg,png,jpg|max:2048'
         ]);
-
         $fileName = time() . '_' . $request->thumbnail->getClientOriginalName();
         $filePath = $request->file('thumbnail')->storeAs('uploads', $fileName, 'public');
-
         Image::make(storage_path() . '/app/public/uploads/' . $fileName)
             ->fit(240, 320)
             ->save();
@@ -128,22 +125,6 @@ class BukuController extends Controller
             }
         }
         return redirect('/dashboard')->with('pesan', 'Perubahan Data Buku Berhasil disimpan!');
-
-
-        // $this->validate($request, [
-        //     'judul' => 'required|string|max:255',
-        //     'penulis' => 'required|string|max:255',
-        //     'harga' => 'required|integer',
-        //     'tgl_terbit' => 'required|date',
-        // ]);
-
-        // $buku = Buku::find($id);
-        // $buku->judul = $request->judul;
-        // $buku->penulis = $request->penulis;
-        // $buku->harga = $request->harga;
-        // $buku->tgl_terbit = $request->tgl_terbit;
-        // $buku->save();
-        // return redirect('/dashboard');
     }
 
     /**
@@ -155,4 +136,14 @@ class BukuController extends Controller
         $buku->delete();
         return redirect('/dashboard');
     }
+
+    public function deleteGallery($bukuId, $galleryId)
+    {
+        $buku = Buku::findOrFail($bukuId);
+        $gallery = $buku->galleries()->findOrFail($galleryId);
+        $gallery->delete();
+    
+        return redirect()->back()->with('success', 'Gambar berhasil dihapus');
+    }
 }
+
